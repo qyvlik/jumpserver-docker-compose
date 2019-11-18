@@ -1,0 +1,70 @@
+version: '2.2'
+
+services:
+  jms-core:
+    image: jms:latest
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ${JMS_CORE_DATA_VOLUME}:/opt/jumpserver/data
+      - ${JMS_CORE_TMP_VOLUME}:/opt/jumpserver/tmp
+      - ${JMS_CORE_LOGS_VOLUME}:/opt/jumpserver/logs
+    environment:
+      - JUMPSERVER_SECRET_KEY=${JMS_SECRET_KEY}
+      - JUMPSERVER_BOOTSTRAP_TOKEN=${JMS_BOOTSTRAP_TOKEN}
+
+      - JUMPSERVER_BASE_SITE_URL=${JMS_HOST}
+
+      - JUMPSERVER_DB_ENGINE=mysql
+      - JUMPSERVER_DB_HOST=${MYSQL_HOST}
+      - JUMPSERVER_DB_PORT=${MYSQL_PORT}
+      - JUMPSERVER_DB_USER=${MYSQL_USER}
+      - JUMPSERVER_DB_PASSWORD=${MYSQL_PASSWORD}
+      - JUMPSERVER_DB_NAME=${MYSQL_DB_NAME}
+
+      - JUMPSERVER_REDIS_HOST=${REDIS_HOST}
+      - JUMPSERVER_REDIS_PORT=${REDIS_PORT}
+      - JUMPSERVER_REDIS_PASSWORD=${REDIS_PASSWORD}
+    depends_on:
+      - jms-mysql
+      - jms-redis
+
+  jms-koko:
+    image: jumpserver/jms_koko:1.5.4
+    environment:
+      - BOOTSTRAP_TOKEN=${JMS_BOOTSTRAP_TOKEN}
+      - CORE_HOST=${JMS_HOST}
+    ports:
+      - "2222:2222"
+
+  jms-guacamole:
+    image: jumpserver/jms_guacamole:1.5.4
+    environment:
+      - BOOTSTRAP_TOKEN=${JMS_BOOTSTRAP_TOKEN}
+      - JUMPSERVER_SERVER=${JMS_HOST}
+
+  # contain luna
+  jms-nginx:
+    image: nginx:1.15.5-alpine
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./jms-nginx/conf.d:/etc/nginx/conf.d/:ro
+      - ./jms-nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ${JMS_CORE_DATA_VOLUME}:/opt/jumpserver/data:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - jms-core
+      - jms-koko
+      - jms-guacamole
+
+  jms-mysql:
+    image: mysql:5.6
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_DATABASE=${MYSQL_DB_NAME}
+
+  jms-redis:
+    image: redis:4
