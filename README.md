@@ -2,10 +2,10 @@
 
 ## tag or version
 
-- jumpserver: 1.5.4
-- luna: 1.5.4
-- koko: 1.5.4
-- guacamole: 1.5.4
+- [jumpserver](https://github.com/jumpserver/jumpserver/tree/1.5.4): 1.5.4
+- [luna](https://github.com/jumpserver/luna/tree/1.5.4): 1.5.4
+- [koko](https://github.com/jumpserver/koko/tree/1.5.4): 1.5.4
+- [guacamole](https://github.com/jumpserver/docker-guacamole/tree/1.5.4): 1.5.4
 - mysql: 5.6
 - redis: 4
 
