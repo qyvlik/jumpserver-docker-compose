@@ -45,7 +45,7 @@ services:
 
   # contain luna
   jms-nginx:
-    image: nginx:1.15.5-alpine
+    image: jms-nginx
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -61,6 +61,9 @@ services:
 
   jms-mysql:
     image: mysql:5.6
+    entrypoint:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
     volumes:
       - ${MYSQL_VOLUME}:/var/lib/docker
     environment:
