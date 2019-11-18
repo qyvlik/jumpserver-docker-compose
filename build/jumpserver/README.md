@@ -10,7 +10,7 @@ docker build -t jms .
 
 ## 适合运行的宿主机系统
 
-`Ubuntu`
+`Ubuntu 18.04LTS`
 
 ## 容器内进程用户
 
@@ -22,7 +22,7 @@ docker build -t jms .
 
 ## 容器内时区
 
-绑定到宿主机的时区，如果需要特别指定时区而又不想修改时区，请执行修改 [Dockerfile](Dockerfile) 添加如下命令
+绑定到宿主机的时区，如果需要特别指定时区而又不想修改宿主机时区，请执行修改 [Dockerfile](Dockerfile) 添加如下命令
 
 ```dockerfile
 ...
