@@ -45,7 +45,7 @@ services:
 
   # contain luna
   jms-nginx:
-    image: jms-nginx
+    image: jms-nginx:latest
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
