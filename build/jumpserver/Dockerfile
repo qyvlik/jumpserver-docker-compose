@@ -49,7 +49,7 @@ COPY docker-entrypoint.sh .
 RUN chmod 755 ./docker-entrypoint.sh
 
 RUN addgroup --gid 1024 jumpserver && \
-    adduser --no-create-home --disabled-password --gecos "" --force-badname --ingroup jumpserver jumpserver && \
+    adduser --disabled-password --gecos "" --force-badname --ingroup jumpserver jumpserver && \
     chown jumpserver:jumpserver -R ${JUMPSERVER_PATH}
 
 USER jumpserver
