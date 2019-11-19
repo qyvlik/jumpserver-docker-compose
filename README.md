@@ -29,7 +29,7 @@ docker build -t jms-nginx ./build/nginx
 
 ## note
 
-1. 需要手动创建 docker volume 挂载的文件夹，却设置好对应的权限，详见 [jms](build/jumpserver)
+1. 需要手动创建 docker volume 挂载的文件夹，并设置好对应的权限，详见 [jms](build/jumpserver)
 2. [.env.example](.env.example) 包含了一些预设的环境变量，更多环境变量，详见 [jumpserver](build/jumpserver)
 3. [jms-nginx](build/nginx) 包含了 `luna`
 4. [jms-nginx](build/nginx) 通过 docker volume 技术与 [jms](build/jumpserver) 共享文件
